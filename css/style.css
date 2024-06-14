@@ -94,3 +94,12 @@ h1 {
     color: #525252;
     font-size: 11px; 
 }
+
+.error-message {
+    font-size: 30px;
+    color: #e31515;
+    text-align: center;
+    padding: 10px;
+    margin: 20% 0;
+    display: none; /* Masqué par défaut si requête réussie */
+}
