@@ -2,10 +2,57 @@
     display: none;
 }
 
+.banner {
+    margin-bottom: 40px;
+}
+
+main {
+    width: 100%;
+    max-width: 1240px;
+    height: 313px;
+    margin: 0 auto;;
+}
+
 .photograph-header {
+    display: flex;
+    align-items: center;
     background-color: #FAFAFA;
-    height: 300px;
-    margin: 0 100px;
+    justify-content: space-between;
+    padding: 56px 50px;
+}
+
+.header-title {
+    color: #D3573C;
+    font-size: 64px;
+    font-weight: 400;
+    margin: 0;
+    height: 83px;
+}
+
+.photograph-header img {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.photographer-profile {
+    display:flex;
+    flex-direction: column;
+}
+
+/* Pour la ville */
+.photograph-info p:nth-child(1) {
+    margin: 0;
+    font-size: 24px;
+    color:#901C1C;
+}
+
+/* Pour la tagline */
+.photograph-info p:nth-child(2) {
+    margin: 3px 0;
+    color: #525252;
+    font-size: 18px;
 }
 
 .contact_button {

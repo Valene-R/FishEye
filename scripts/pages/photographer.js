@@ -1,5 +1,6 @@
 import { ApiManager } from "../api/apiManager.js";
 import { displayError } from "../utils/displayError.js";
+import { PhotographerTemplate } from "../templates/photographer.js";
 
 
 /**
@@ -13,7 +14,12 @@ async function initPhotographerPage() {
         const photographerId = getPhotographerIdFromUrl();
 
         if (photographerId) {
-            photographers.find(p => p.id == photographerId);
+            const photographer = photographers.find(p => p.id == photographerId);
+            if (photographer) {
+                displayPhotographerData(photographer);
+            } else {
+                displayError("Photographe non trouvé.");
+            }
         } else {
             displayError("Aucun ID de photographe spécifié dans l'URL.");
         }
@@ -22,6 +28,17 @@ async function initPhotographerPage() {
     }
 }
 
+
+/**
+ * Affiche les données du photographe spécifique dans le DOM
+ * @param {Object} photographer Un objet représentant le photographe
+ */
+function displayPhotographerData(photographer) {
+    const header = document.querySelector(".photograph-header");
+    const photographerModel = new PhotographerTemplate(photographer);
+    const photographerHeaderDOM = photographerModel.getPhotographerPageDOM();
+    header.appendChild(photographerHeaderDOM);
+}
 
 
 /**

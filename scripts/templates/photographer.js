@@ -56,4 +56,48 @@ export class PhotographerTemplate {
 
         return article;
     }
+
+
+    /**
+     * Crée et retourne un élément DOM représentant le photographe pour la page spécifique du photographe
+     * @returns {DocumentFragment} Le fragment contenant les détails du photographe
+     */
+     getPhotographerPageDOM() {
+        const fragment = document.createDocumentFragment();
+
+        const photographerProfile = document.createElement("div");
+        photographerProfile.className = "photographer-profile";
+
+        const name = document.createElement("h1");
+        name.className = "header-title";
+        name.textContent = this.name;
+
+        const info = document.createElement("div");
+        info.className = "photograph-info";
+
+        const location = document.createElement("p");
+        location.textContent = `${this.city}, ${this.country}`;
+
+        const tagline = document.createElement("p");
+        tagline.textContent = this.tagline;
+
+        info.appendChild(location);
+        info.appendChild(tagline);
+        photographerProfile.appendChild(name);
+        photographerProfile.appendChild(info);
+
+        // Sélectionne le bouton "Contactez-moi" dans le DOM
+        const contactBtn = document.querySelector(".contact_button");
+
+        const img = document.createElement("img");
+        img.setAttribute("src", this.picture);
+        img.setAttribute("alt", this.name);
+
+        // Ajoute les éléments au fragment
+        fragment.appendChild(photographerProfile);
+        fragment.appendChild(contactBtn);
+        fragment.appendChild(img);
+
+        return fragment;
+    }
 }
