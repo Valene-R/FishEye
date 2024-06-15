@@ -48,5 +48,5 @@ async function displayData(photographers) {
 }
     
 
-// Appelle la fonction init lors du chargement du script
+// Appelle la fonction initHomePage lors du chargement du script
 initHomePage();

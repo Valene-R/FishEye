@@ -1,37 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez les talents de nos photographes freelances et contactez-les pour vos projets.">
+    
+    <title>FishEye - photographe</title>
+
     <link rel="icon" type="image/png" href="assets/favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
-    <title>Fisheye - photographe </title>
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+
+    <script type="module" src="/scripts/pages/photographer.js"></script>
   </head>
+
   <body>
     <header>
-      <img src="assets/images/logo.png" class="logo" />
+      <a href="index.html" aria-label="Return to Fisheye homepage">
+        <img src="assets/images/logo.png" class="logo" alt="Fisheye Home page">
+      </a>
     </header>
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+        <button class="contact_button" aria-label="Contact Me" onclick="displayModal()">Contactez-moi</button>
       </div>
     </main>
-    <div id="contact_modal">
+    <div id="contact_modal" aria-labelledby="contact-me" role="dialog">
 			<div class="modal">
 				<header>
-          <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
+          <h2 id="contact-me">Contactez-moi</h2>
+          <img src="assets/icons/close.svg" onclick="closeModal()" alt="Close Contact form">
         </header>
 				<form>
 					<div>
-						<label>Prénom</label>
-						<input />
+						<label id="first-name-label" for="first-name">Prénom</label>
+						<input id="first-name" aria-labelledby="first-name-label">
 					</div>
-          <button class="contact_button">Envoyer</button>
+          <button class="contact_button" type="submit" aria-label="Send">Envoyer</button>
 				</form>
 			</div>
 		</div>
-    <script src="/scripts/pages/photographer.js"></script>
-    <script src="/scripts/utils/contactForm.js"></script>
   </body>
 </html>
