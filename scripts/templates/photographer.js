@@ -93,10 +93,19 @@ export class PhotographerTemplate {
         img.setAttribute("src", this.picture);
         img.setAttribute("alt", this.name);
 
+        const infoBarFooter = document.createElement("aside");
+        infoBarFooter.className = "photographer-footer";
+
+        const price = document.createElement("p");
+        price.textContent = `${this.price}€ / jour`;
+
+        infoBarFooter.appendChild(price);
+
         // Ajoute les éléments au fragment
         fragment.appendChild(photographerProfile);
         fragment.appendChild(contactBtn);
         fragment.appendChild(img);
+        fragment.appendChild(infoBarFooter);
 
         return fragment;
     }

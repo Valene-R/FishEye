@@ -50,9 +50,30 @@ main {
 
 /* Pour la tagline */
 .photograph-info p:nth-child(2) {
-    margin: 3px 0;
+    margin: 19px 0;
     color: #525252;
     font-size: 18px;
+}
+
+/* Pour le prix */
+.photographer-footer {
+    position: fixed;
+    bottom: 0;
+    right: 100px;
+    z-index: 10;
+    width: 376px;
+}
+
+.photographer-footer p {
+    background-color: #DB8876;
+    color: #000;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 21px 34px 21px 31px;
+    border-radius: 5px;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .contact_button {
