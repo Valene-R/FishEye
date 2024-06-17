@@ -76,6 +76,68 @@ main {
     justify-content: flex-end;
 }
 
+/* Les réalisations */
+.media_section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 95px; 
+    padding: 20px 0; 
+}
+
+.media_section h2 {
+    color: #901C1C;
+    font-size: 24px;
+    font-weight: 400;
+    margin: 10px 0;
+    height: 31px;
+    max-width: 292px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.media_section article {
+    width: 100%;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+}
+
+.media_section img, video {
+    width: 100%;
+    max-width: 350px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.likes-container {
+    display: flex;
+    align-items: flex-end;
+    margin-top: 10px;
+    height: 31px;
+}
+
+.likes-count {
+    font-size: 18px;
+    color: #901C1C;
+    margin-right: 5px;
+    color: #901C1C;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.heart-icon svg{
+    width: 21px;
+    height: 24px;
+}
+
 .contact_button {
     font-size: 20px;
     font-weight: bold;

@@ -23,4 +23,19 @@ export class ApiManager {
             return []; // Retourne un tableau vide en cas d'erreur
         }
     }
+
+    /**
+     * Récupère les médias à partir d'un fichier JSON
+     * @returns {Promise<Array>} Une promesse qui retourne un tableau de médias si la requête réussit, sinon un tableau vide
+     */
+    async getMedia() {
+        try {
+            const response = await fetch(`${this.baseUrl}/photographers.json`);
+            const data = await response.json();
+            return data.media;
+        } catch (error) {
+            console.error("Failed to load media:", error);
+            return [];
+        }
+    }
 }

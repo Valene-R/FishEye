@@ -1,12 +1,14 @@
 import { ApiManager } from "../api/apiManager.js";
 import { displayError } from "../utils/displayError.js";
 import { PhotographerTemplate } from "../templates/photographer.js";
+import { MediaFactory } from "../factories/mediaFactory.js";
 
 
 /**
  * Initialise la page du photographe en récupérant les données du photographe spécifique
  */
 async function initPhotographerPage() {
+    // Crée une instance d'ApiManager avec la baseURL "data"
     const api = new ApiManager("data");
 
     try {
@@ -17,6 +19,7 @@ async function initPhotographerPage() {
             const photographer = photographers.find(p => p.id == photographerId);
             if (photographer) {
                 displayPhotographerData(photographer);
+                displayMedia(photographerId, photographer.name);
             } else {
                 displayError("Photographe non trouvé.");
             }
@@ -38,6 +41,36 @@ function displayPhotographerData(photographer) {
     const photographerModel = new PhotographerTemplate(photographer);
     const photographerHeaderDOM = photographerModel.getPhotographerPageDOM();
     header.appendChild(photographerHeaderDOM);
+}
+
+
+/**
+ * Affiche les réalisations du photographe spécifique dans le DOM
+ * @param {number} photographerId L'ID du photographe
+ * @param {string} photographerName Le nom du photographe
+ */
+async function displayMedia(photographerId, photographerName) {
+    const api = new ApiManager("data");
+    // Appelle la méthode getMedia() de l'ApiManager pour récupérer les données des médias
+    const mediaData = await api.getMedia();
+
+    // Crée une nouvelle div pour contenir les médias
+    const mediaSection =document.createElement("div");
+    mediaSection.className = "media_section";
+    // Ajoute cette nouvelle div à l'élément <main> du document
+    document.querySelector("main").appendChild(mediaSection);
+
+    // Filtre et affiche les médias du photographe spécifique
+    mediaData
+        .filter(media => media.photographerId == photographerId)
+        .forEach(media => {
+            // Ajoute le nom du photographe aux données de chaque média
+            media.photographerName = photographerName; 
+            // Crée un élément média (photo ou vidéo) en utilisant la MediaFactory
+            const mediaElement = MediaFactory.createMedia(media);
+            // Ajoute mediaElement créé à mediaSection
+            mediaSection.appendChild(mediaElement.createMediaElement());
+        });
 }
 
 
