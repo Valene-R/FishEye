@@ -2,9 +2,11 @@ export class ApiManager {
     /**
      * Constructeur qui initialise l'instance avec l'URL de base
      * @param {string} baseUrl URL de base pour les requêtes de l'API
+     * @param {string} iconBaseUrl URL de base pour les icônes
      */
-    constructor(baseUrl) {
-        this.baseUrl = baseUrl;  
+    constructor(baseUrl, iconBaseUrl) {
+        this.baseUrl = baseUrl; 
+        this.iconBaseUrl = iconBaseUrl; 
     }
 
     /**
@@ -36,6 +38,21 @@ export class ApiManager {
         } catch (error) {
             console.error("Failed to load media:", error);
             return [];
+        }
+    }
+
+    /**
+     * Récupère un fichier SVG à partir d'une URL
+     * @param {string} svgName Le nom du fichier SVG
+     * @returns {Promise<string>} Une promesse qui retourne le contenu du SVG si la requête réussit
+     */
+    async getSVG(svgName) {
+        try {
+            const response = await fetch(`${this.iconBaseUrl}/${svgName}`);
+            return await response.text();
+        } catch (error) {
+            console.error(error);
+            return "";
         }
     }
 }

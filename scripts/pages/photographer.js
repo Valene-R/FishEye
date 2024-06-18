@@ -50,9 +50,12 @@ function displayPhotographerData(photographer) {
  * @param {string} photographerName Le nom du photographe
  */
 async function displayMedia(photographerId, photographerName) {
-    const api = new ApiManager("data");
+    const api = new ApiManager("data", "assets/icons");
+
     // Appelle la méthode getMedia() de l'ApiManager pour récupérer les données des médias
     const mediaData = await api.getMedia();
+    // Appelle la méthode getSVG() de l'ApiManager pour récupérer le contenu du fichier .svg 
+    const heartSVG = await api.getSVG("heart.svg");
 
     // Crée une nouvelle div pour contenir les médias
     const mediaSection =document.createElement("div");
@@ -66,8 +69,8 @@ async function displayMedia(photographerId, photographerName) {
         .forEach(media => {
             // Ajoute le nom du photographe aux données de chaque média
             media.photographerName = photographerName; 
-            // Crée un élément média (photo ou vidéo) en utilisant la MediaFactory
-            const mediaElement = MediaFactory.createMedia(media);
+            // Crée un élément média (photo ou vidéo) en utilisant la MediaFactory, en passant heartSVG
+            const mediaElement = MediaFactory.createMedia(media, heartSVG);
             // Ajoute mediaElement créé à mediaSection
             mediaSection.appendChild(mediaElement.createMediaElement());
         });
