@@ -12,6 +12,7 @@
     <link href="css/style.css" rel="stylesheet" type="text/css">
 
     <script type="module" src="/scripts/pages/photographer.js"></script>
+    <script type="module" src="/scripts/utils/contactForm.js"></script>
   </head>
 
   <body>
@@ -22,20 +23,34 @@
     </header>
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" aria-label="Contact Me" onclick="displayModal()">Contactez-moi</button>
+        <button class="contact_button" aria-label="Contact Me">Contactez-moi</button>
       </div>
     </main>
     <div id="contact_modal" aria-labelledby="contact-me" role="dialog">
 			<div class="modal">
 				<header>
           <h2 id="contact-me">Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" alt="Close Contact form">
+          <button class="close-button" aria-label="Close Contact form">
+            <img src="assets/icons/close.svg" alt="">
+          </button>
         </header>
-				<form>
+				<form id="contact-form">
 					<div>
 						<label id="first-name-label" for="first-name">Prénom</label>
-						<input id="first-name" aria-labelledby="first-name-label">
+						<input id="first-name" name="first-name" aria-labelledby="first-name-label" required>
 					</div>
+          <div>
+            <label id="last-name-label" for="last-name">Nom</label>
+            <input id="last-name" name="last-name" aria-labelledby="last-name-label" required>
+          </div>
+          <div>
+            <label id="email-label" for="email">Email</label>
+            <input id="email" name="email" type="email" aria-labelledby="email-label" required>
+          </div>
+          <div>
+            <label id="message-label" for="your-message">Votre message</label>
+            <textarea id="your-message" name="message" aria-labelledby="message-label" required></textarea>
+          </div>
           <button class="contact_button" type="submit" aria-label="Send">Envoyer</button>
 				</form>
 			</div>
