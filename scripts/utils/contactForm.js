@@ -37,6 +37,26 @@ export function closeModal() {
 }
 
 
+/**
+ * Affiche une notification de succès
+ */
+export function showToast() {
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    // Définit le rôle de la notification pour l'accessibilité
+    toast.setAttribute("role", "alert");
+    // Définit l'aria-live pour informer les lecteurs d'écran que ce message doit être lu immédiatement
+    toast.setAttribute("aria-live", "assertive"); 
+    toast.textContent = "Votre message a bien été envoyé !";
+    document.body.appendChild(toast);
+  
+    // Supprime la notification après un délai
+    setTimeout(() => {
+        toast.remove();
+    }, 4000);
+}
+
+
 
 /////////
 ///// EVENT LISTENERS
@@ -50,6 +70,9 @@ document.getElementById("contact-form").addEventListener("submit", (event) => {
 
     // Affiche les données du formulaire dans la console
     console.log(formProps); 
+
+    // Affiche la notification
+    showToast();
 
     // Réinitialise le formulaire 
     event.target.reset();

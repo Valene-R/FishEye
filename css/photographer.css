@@ -237,3 +237,42 @@ form textarea {
     padding: 10px;
     font-size: 18px;
 }
+
+/* Style de la notification */
+.toast {
+    font-size: 24px;
+    font-weight: bold;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: #000;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    animation: fadein 1s ease-out, fadeout 1s ease-in 3s forwards;
+}
+  
+@keyframes fadein {
+    from {
+        top: 0; 
+        opacity: 0;
+    }
+    to {
+        top: 20%; 
+        opacity: 1;
+    }
+}
+  
+@keyframes fadeout {
+    from {
+        top: 20%;
+        opacity: 1;
+    }
+    to {
+        top: 0; 
+        opacity: 0;
+    }
+}
