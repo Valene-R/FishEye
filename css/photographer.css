@@ -164,11 +164,10 @@ main {
 .modal {
     border-radius: 5px;
     background-color: #DB8876;
-    width: 669px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 15px 35px 20px 38px;
+    padding: 15px 35px 38px;
     margin: 69px 375px 55px 385px;
 }
 
@@ -223,6 +222,7 @@ form div {
 
 form input {
     width: 100%;
+    max-width: 600px;
     height: 68px;
     border: none;
     border-radius: 5px;
@@ -233,9 +233,11 @@ form input {
 form textarea {
     height: 170px;
     width: 100%;
+    max-width: 590px;
     border-radius: 5px;
     padding: 10px;
     font-size: 18px;
+    resize: none;
 }
 
 /* Style de la notification */
