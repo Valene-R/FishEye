@@ -19,6 +19,7 @@ export class Media {
      */
     createCommonElements() {
         const article = document.createElement("article");
+        article.setAttribute("data-lightbox", "media-item");
 
         const titleContainer = document.createElement("div");
         titleContainer.className = "title-container";

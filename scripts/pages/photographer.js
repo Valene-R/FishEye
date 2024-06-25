@@ -2,6 +2,7 @@ import { ApiManager } from "../api/apiManager.js";
 import { displayError } from "../utils/displayError.js";
 import { PhotographerTemplate } from "../templates/photographer.js";
 import { MediaFactory } from "../factories/mediaFactory.js";
+import { Lightbox } from "../utils/lightbox.js";
 
 
 /**
@@ -50,7 +51,7 @@ function displayPhotographerData(photographer) {
  * @param {string} photographerName Le nom du photographe
  */
 async function displayMedia(photographerId, photographerName) {
-    const api = new ApiManager("data", "assets/icons");
+    const api = new ApiManager("data", "assets/icons")
 
     // Appelle la méthode getMedia() de l'ApiManager pour récupérer les données des médias
     const mediaData = await api.getMedia();
@@ -74,6 +75,13 @@ async function displayMedia(photographerId, photographerName) {
             // Ajoute mediaElement créé à mediaSection
             mediaSection.appendChild(mediaElement.createMediaElement());
         });
+
+    // Sélectionne tous les éléments de média avec l'attribut data-lightbox="media-item"
+    const mediaItems = document.querySelectorAll('[data-lightbox="media-item"]');
+
+    // Initialise la lightbox avec les éléments média
+    const lightbox = new Lightbox(api);
+    lightbox.init(mediaItems);
 }
 
 
