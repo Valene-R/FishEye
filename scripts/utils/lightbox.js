@@ -145,11 +145,22 @@ export class Lightbox {
 
     // Initialise la Lightbox avec les éléments média
     init(mediaItems) {
-        this.mediaItems = mediaItems;
+        this.mediaItems = mediaItems; // Stocke les éléments média
         this.mediaItems.forEach((item, index) => {
-            item.addEventListener("click", (event) => {
-                event.preventDefault(); // Empêche le comportement par défaut sur un élément <a>
-                this.openLightbox(index); // Ouvre la Lightbox avec l'index du média cliqué
+            const link = item.querySelector("a"); // Sélectionne le lien de chaque élément média
+
+            // Gére l'ouverture de la Lightbox via un clic
+            link.addEventListener("click", (event) => {
+                event.preventDefault();
+                this.openLightbox(index); // Ouvre la Lightbox avec l'index de l'élément média cliqué
+            });
+
+            // Gére l'ouverture de la Lightbox via le clavier
+            link.addEventListener("keydown", (event) => {
+                if ((event.key === "Enter" || event.key === " ") && document.activeElement === link) {
+                    event.preventDefault(); // Empêche le comportement par défaut de la touche (comme faire défiler la page)
+                    this.openLightbox(index); // Ouvre la Lightbox avec l'index de l'élément média activé
+                }
             });
         });
     }

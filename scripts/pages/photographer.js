@@ -9,18 +9,25 @@ import { Lightbox } from "../utils/lightbox.js";
  * Initialise la page du photographe en récupérant les données du photographe spécifique
  */
 async function initPhotographerPage() {
-    // Crée une instance d'ApiManager avec la baseURL "data"
-    const api = new ApiManager("data");
+    // Crée une instance d'ApiManager avec la baseURL "data" et "assets/icons"
+    const api = new ApiManager("data", "assets/icons");
 
     try {
         const photographers = await api.getPhotographers();
         const photographerId = getPhotographerIdFromUrl();
 
+        // Vérifie si l'ID du photographe est présent dans l'URL
         if (photographerId) {
+            // Trouve le photographe correspondant à l'ID spécifié
             const photographer = photographers.find(p => p.id == photographerId);
             if (photographer) {
-                displayPhotographerData(photographer);
-                displayMedia(photographerId, photographer.name);
+                const heartSVG = await api.getSVG("heart.svg");
+                // Crée une instance de PhotographerTemplate avec les données du photographe et le svg
+                const photographerTemplate = new PhotographerTemplate(photographer, heartSVG);
+                // Affiche les données du photographe dans le DOM
+                displayPhotographerData(photographerTemplate);
+                // Affiche les médias du photographe dans le DOM
+                displayMedia(photographerId, photographer.name, photographerTemplate);
             } else {
                 displayError("Photographe non trouvé.");
             }
@@ -35,12 +42,11 @@ async function initPhotographerPage() {
 
 /**
  * Affiche les données du photographe spécifique dans le DOM
- * @param {Object} photographer Un objet représentant le photographe
+ * @param {PhotographerTemplate} photographerTemplate Une instance de PhotographerTemplate représentant le photographe
  */
-function displayPhotographerData(photographer) {
+function displayPhotographerData(photographerTemplate) {
     const header = document.querySelector(".photograph-header");
-    const photographerModel = new PhotographerTemplate(photographer);
-    const photographerHeaderDOM = photographerModel.getPhotographerPageDOM();
+    const photographerHeaderDOM = photographerTemplate.getPhotographerPageDOM();
     header.appendChild(photographerHeaderDOM);
 }
 
@@ -49,8 +55,9 @@ function displayPhotographerData(photographer) {
  * Affiche les réalisations du photographe spécifique dans le DOM
  * @param {number} photographerId L'ID du photographe
  * @param {string} photographerName Le nom du photographe
+ * @param {PhotographerTemplate} photographerTemplate Une instance de PhotographerTemplate représentant le photographe
  */
-async function displayMedia(photographerId, photographerName) {
+async function displayMedia(photographerId, photographerName, photographerTemplate) {
     const api = new ApiManager("data", "assets/icons")
 
     // Appelle la méthode getMedia() de l'ApiManager pour récupérer les données des médias
@@ -70,10 +77,16 @@ async function displayMedia(photographerId, photographerName) {
         .forEach(media => {
             // Ajoute le nom du photographe aux données de chaque média
             media.photographerName = photographerName; 
-            // Crée un élément média (photo ou vidéo) en utilisant la MediaFactory, en passant heartSVG
-            const mediaElement = MediaFactory.createMedia(media, heartSVG);
+
+            // Crée un élément média (photo ou vidéo) en utilisant la MediaFactory
+            // en passant les données du média, le heartSVG et l'instance de PhotographerTemplate
+            const mediaElement = MediaFactory.createMedia(media, heartSVG, photographerTemplate);
+
             // Ajoute mediaElement créé à mediaSection
             mediaSection.appendChild(mediaElement.createMediaElement());
+
+            // Met à jour le nombre total de likes du photographe
+            photographerTemplate.updateTotalLikes(media.likes);
         });
 
     // Sélectionne tous les éléments de média avec l'attribut data-lightbox="media-item"

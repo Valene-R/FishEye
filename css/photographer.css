@@ -74,6 +74,7 @@ main {
     width: 376px;
 }
 
+/* Petit encart qui affiche le tarif journalier */
 .photographer-footer p {
     background-color: #DB8876;
     color: #000;
@@ -83,7 +84,22 @@ main {
     border-radius: 5px;
     margin: 0;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.total-likes {
+    display: inline-flex;
+    gap: 10px;
+}
+
+.total-likes path{
+    fill: #000;
+}
+
+.total-likes .heart-icon svg {
+    padding-top: 2px;
 }
 
 /* Les réalisations */
@@ -134,6 +150,10 @@ main {
     height: 31px;
 }
 
+.likes-container svg {
+    cursor: pointer;
+}
+
 .likes-count {
     font-size: 18px;
     color: #901C1C;
@@ -182,9 +202,6 @@ main {
 .modal header h2 {
     font-size: 64px;
     font-weight: normal;
-}
-
-h2 {
     display: flex;
     flex-direction: column;
 }
