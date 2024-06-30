@@ -3,6 +3,7 @@ import { displayError } from "../utils/displayError.js";
 import { PhotographerTemplate } from "../templates/photographer.js";
 import { MediaFactory } from "../factories/mediaFactory.js";
 import { Lightbox } from "../utils/lightbox.js";
+import { sortMedia } from '../utils/sortMedia.js';
 
 
 /**
@@ -13,7 +14,9 @@ async function initPhotographerPage() {
     const api = new ApiManager("data", "assets/icons");
 
     try {
+        // Récupère les données des photographes et des médias
         const photographers = await api.getPhotographers();
+        const mediaData = await api.getMedia();
         const photographerId = getPhotographerIdFromUrl();
 
         // Vérifie si l'ID du photographe est présent dans l'URL
@@ -22,12 +25,27 @@ async function initPhotographerPage() {
             const photographer = photographers.find(p => p.id == photographerId);
             if (photographer) {
                 const heartSVG = await api.getSVG("heart.svg");
+                const filteredMedia = mediaData.filter(media => media.photographerId == photographerId);
+                
+                // Calcule le nombre total de "likes" pour tous les médias du photographe
+                const initialTotalLikes = filteredMedia.reduce((total, media) => total + media.likes, 0);
+
                 // Crée une instance de PhotographerTemplate avec les données du photographe et le svg
-                const photographerTemplate = new PhotographerTemplate(photographer, heartSVG);
+                const photographerTemplate = new PhotographerTemplate(photographer, heartSVG, initialTotalLikes);
+                
                 // Affiche les données du photographe dans le DOM
                 displayPhotographerData(photographerTemplate);
+
+                // Crée une nouvelle div pour contenir les médias 
+                const mediaSection = document.createElement("div");
+                mediaSection.className = "media_section";
+                document.querySelector("main").appendChild(mediaSection);
+
                 // Affiche les médias du photographe dans le DOM
                 displayMedia(photographerId, photographer.name, photographerTemplate);
+
+                // Initialise le menu déroulant de tri
+                initDropdown(photographerTemplate);
             } else {
                 displayError("Photographe non trouvé.");
             }
@@ -56,38 +74,36 @@ function displayPhotographerData(photographerTemplate) {
  * @param {number} photographerId L'ID du photographe
  * @param {string} photographerName Le nom du photographe
  * @param {PhotographerTemplate} photographerTemplate Une instance de PhotographerTemplate représentant le photographe
+ * @param {string} sortBy Le critère de tri ("popularité", "date" ou "titre")
  */
-async function displayMedia(photographerId, photographerName, photographerTemplate) {
-    const api = new ApiManager("data", "assets/icons")
+async function displayMedia(photographerId, photographerName, photographerTemplate, sortBy = "popularité") {
+    const api = new ApiManager("data", "assets/icons");
 
     // Appelle la méthode getMedia() de l'ApiManager pour récupérer les données des médias
     const mediaData = await api.getMedia();
-    // Appelle la méthode getSVG() de l'ApiManager pour récupérer le contenu du fichier .svg 
+    // Appelle la méthode getSVG() de l'ApiManager pour récupérer le contenu du fichier .svg
     const heartSVG = await api.getSVG("heart.svg");
 
-    // Crée une nouvelle div pour contenir les médias
-    const mediaSection =document.createElement("div");
-    mediaSection.className = "media_section";
-    // Ajoute cette nouvelle div à l'élément <main> du document
-    document.querySelector("main").appendChild(mediaSection);
+    // Filtre les médias pour n'afficher que ceux du photographe spécifique
+    const filteredMedia = mediaData.filter(media => media.photographerId == photographerId);
 
-    // Filtre et affiche les médias du photographe spécifique
-    mediaData
-        .filter(media => media.photographerId == photographerId)
-        .forEach(media => {
-            // Ajoute le nom du photographe aux données de chaque média
-            media.photographerName = photographerName; 
+    // Trie les médias en fonction du critère sélectionné
+    const sortedMedia = sortMedia(filteredMedia, sortBy);
 
-            // Crée un élément média (photo ou vidéo) en utilisant la MediaFactory
-            // en passant les données du média, le heartSVG et l'instance de PhotographerTemplate
-            const mediaElement = MediaFactory.createMedia(media, heartSVG, photographerTemplate);
+    const mediaSection = document.querySelector(".media_section");
+    mediaSection.innerHTML = " ";
 
-            // Ajoute mediaElement créé à mediaSection
-            mediaSection.appendChild(mediaElement.createMediaElement());
+    // Affiche chaque média dans le DOM
+    sortedMedia.forEach(media => {
+        // Ajoute le nom du photographe aux données de chaque média
+        media.photographerName = photographerName;
 
-            // Met à jour le nombre total de likes du photographe
-            photographerTemplate.updateTotalLikes(media.likes);
-        });
+        // Crée un élément média (photo ou vidéo) en utilisant la MediaFactory
+        // en passant les données du média, le heartSVG et l'instance de PhotographerTemplate
+        const mediaElement = MediaFactory.createMedia(media, heartSVG, photographerTemplate);
+        // Ajoute mediaElement créé à mediaSection
+        mediaSection.appendChild(mediaElement.createMediaElement());
+    });
 
     // Sélectionne tous les éléments de média avec l'attribut data-lightbox="media-item"
     const mediaItems = document.querySelectorAll('[data-lightbox="media-item"]');
@@ -117,5 +133,125 @@ function getPhotographerIdFromUrl() {
 }
 
 
+/**
+ * Initialise le menu déroulant de tri
+ * @param {PhotographerTemplate} photographerTemplate 
+ */
+async function initDropdown(photographerTemplate) {
+    const button = document.querySelector(".dropdown-toggle");
+    const buttonText = button.querySelector(".button-text");
+    const dropdown = document.querySelector(".dropdown");
+    const menu = document.querySelector(".dropdown-menu");
+    const options = menu.querySelectorAll("li");
+
+    const api = new ApiManager("data", "assets/icons");
+
+    // Récupère et ajoute le SVG du chevron au bouton du menu déroulant
+    const chevronDropdown = await api.getSVG("chevronDropdown.svg");
+    const chevronElement = button.querySelector(".chevron");
+    chevronElement.innerHTML = chevronDropdown;
+
+    // Masque l'option sélectionnée dans le menu déroulant
+    function hideSelectedOption() {
+        options.forEach(option => {
+            if (option.textContent === buttonText.textContent) {
+                option.style.display = "none"; // Masque l'option actuellement sélectionnée
+            } else {
+                option.style.display = "block"; // Affiche les autres options
+            }
+        });
+    }
+
+    hideSelectedOption();
+
+    // Gére l'ouverture et de la fermeture du menu déroulant au clic du bouton
+    button.addEventListener("click", (event) => {
+        event.preventDefault();
+        const expanded = button.getAttribute("aria-expanded") === "true"; // Vérifie si le menu est actuellement ouvert
+        // Met à jour l'attribut aria-expanded pour refléter le nouvel état
+        button.setAttribute("aria-expanded", !expanded);
+        // Bascule la classe "open" du bouton pour appliquer les styles correspondants
+        button.classList.toggle("open", !expanded);
+        menu.style.display = expanded ? "none" : "block"; // Affiche ou cache le menu
+
+        // Si le menu s'ouvre, masque l'option sélectionnée
+        if (!expanded) {
+            hideSelectedOption(); // Masque l'option actuellement sélectionnée pour ne pas l'afficher dans la liste
+        }
+    });
+
+    // Gére la sélection d'une option du menu
+    options.forEach(option => {
+        option.addEventListener("click", () => {
+            options.forEach(opt => opt.setAttribute("aria-selected", "false"));
+            option.setAttribute("aria-selected", "true");
+            buttonText.textContent = option.textContent;
+            button.setAttribute("aria-expanded", "false");
+            button.classList.remove("open");
+            menu.style.display = "none";
+
+            hideSelectedOption();
+
+            // Met à jour aria-activedescendant
+            button.setAttribute("aria-activedescendant", option.id);
+
+            const sortBy = option.dataset.value; // Récupère la valeur de tri de l'option sélectionnée
+            const photographerId = getPhotographerIdFromUrl(); // Récupère l'ID du photographe à partir de l'URL
+            const photographerName = document.querySelector(".header-title").textContent; // Récupère le nom du photographe
+            displayMedia(photographerId, photographerName, photographerTemplate, sortBy); // Affiche les médias triés
+        });
+
+        // Gére la sélection de l'option au clavier
+        option.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                option.click(); // Simule un clic sur l'option
+            }
+        });
+    });
+
+    // Gére la fermeture du menu lorsque l'utilisateur clique en dehors
+    document.addEventListener("click", (event) => {
+        if (!dropdown.contains(event.target)) {
+            button.setAttribute("aria-expanded", "false");
+            button.classList.remove("open");
+            menu.style.display = "none";
+        }
+    });
+
+    // Gére la navigation au clavier pour le bouton du menu déroulant
+    button.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowDown" || event.key === "ArrowUp") { // Si la touche "Flèche vers le bas" ou "Flèche vers le haut" est pressée
+            event.preventDefault();
+            const firstOption = options[0]; // Sélectionne la première option du menu
+            firstOption.focus(); // Déplace le focus sur la première option
+        }
+    });
+
+    // Gére la navigation au clavier pour les options du menu
+    options.forEach((option, index) => {
+        option.addEventListener("keydown", (event) => {
+            if (event.key === "ArrowDown") {
+                event.preventDefault();
+                const nextOption = options[index + 1] || options[0]; // Sélectionne l'option suivante ou revient à la première
+                nextOption.focus(); // Déplace le focus sur l'option suivante
+            } else if (event.key === "ArrowUp") {
+                event.preventDefault();
+                const prevOption = options[index - 1] || options[options.length - 1]; // Sélectionne l'option précédente ou revient à la dernière
+                prevOption.focus(); // Déplace le focus sur l'option précédente
+            }
+        });
+    });
+}
+
+
 // Appelle la fonction initPhotographerPage lors du chargement du script pour la page du photographe
 initPhotographerPage();
+
+// Définit l'événement "beforeunload" pour nettoyer le sessionStorage
+window.addEventListener("beforeunload", () => {
+    const photographerId = getPhotographerIdFromUrl();
+    if (photographerId) {
+        sessionStorage.removeItem(`photographer_${photographerId}_likes`);
+    }
+});

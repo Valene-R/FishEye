@@ -2,7 +2,7 @@
  * Représente un photographe
  */
 export class PhotographerTemplate {
-    constructor(data, heartSVG) {
+    constructor(data, heartSVG, initialTotalLikes) {
         // Initialise l'instance avec les données fournies
         const { name, portrait, city, country, tagline, price, id } = data;
         this.name = name;
@@ -14,7 +14,10 @@ export class PhotographerTemplate {
         this.id = id;
         this.picture = `assets/photographers/idPhotos/${portrait}`;
         this.heartSVG = heartSVG;
-        this.totalLikes = 0;
+
+        // Récupère les likes sauvegardés ou initialise avec le total initial
+        const savedLikes = sessionStorage.getItem(`photographer_${this.id}_likes`);
+        this.totalLikes = savedLikes && !isNaN(savedLikes) ? parseInt(savedLikes, 10) : initialTotalLikes;
     }
 
     /**
@@ -66,7 +69,6 @@ export class PhotographerTemplate {
 
         return article;
     }
-
 
     /**
      * Crée et retourne un élément DOM représentant le photographe pour la page spécifique du photographe
@@ -146,6 +148,8 @@ export class PhotographerTemplate {
      */
     updateTotalLikes(likes) {
         this.totalLikes += likes;
+        sessionStorage.setItem(`photographer_${this.id}_likes`, this.totalLikes); // Sauvegarde les likes dans le sessionStorage
+        
         if (this.likesContainer) {
             this.likesContainer.querySelector('.total-likes-count').textContent = this.totalLikes;
         }

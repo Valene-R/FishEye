@@ -1,3 +1,6 @@
+// Déclare mediaLikesState globalement
+const mediaLikesState = {};
+
 /**
  * Classe représentant un média
  */
@@ -6,13 +9,21 @@ export class Media {
         this.id = data.id;
         this.photographerId = data.photographerId;
         this.title = data.title;
-        this._likes = data.likes; // Le nombre de likes du média (propriété privé)
+        // Utilise l'état sauvegardé dans mediaLikesState si disponible, sinon utilise les données initiales du JSON
+        // "mediaLikesState" permet de préserver les likes entre les changements d'option dans le dropdown sans toucher au sessionStorage directement
+        this._likes = mediaLikesState[this.id]?.likes || data.likes;
         this.date = data.date;
         this.price = data.price;
         this.photographerName = data.photographerName;
         this.heartSVG = heartSVG;
-        this.isLiked = false; // Flag binaire (boolean) : vérifie si le média a déjà été liké ou non
-        this.photographerTemplate = photographerTemplate; // Référence au template du photographe
+        // Récupère l'état du like pour ce média depuis mediaLikesState si disponible, sinon initialise à false
+        this.isLiked = mediaLikesState[this.id]?.isLiked || false; 
+        // Initialise la référence au template du photographe pour mettre à jour les likes globaux
+        this.photographerTemplate = photographerTemplate;
+
+        // Sauvegarde l'état initial des likes dans mediaLikesState 
+        // Permet de s'assurer que chaque média a son état de like correctement sauvegardé dès l'initialisation
+        this.saveLikeState();
     }
 
     /**
@@ -30,6 +41,7 @@ export class Media {
     set likes(value) {
         this._likes = value;
         this.updateLikesDisplay();
+        this.saveLikeState();
     }
 
     /**
@@ -40,6 +52,16 @@ export class Media {
             this.likesContainer.querySelector('.likes-count').textContent = this._likes;
             this.likesContainer.setAttribute("aria-label", `${this._likes} likes`);
         }
+    }
+
+    /**
+     * Sauvegarde l'état du like dans le sessionStorage
+     */
+    saveLikeState() {
+        mediaLikesState[this.id] = {
+            likes: this._likes,
+            isLiked: this.isLiked
+        };
     }
 
     /**
@@ -73,6 +95,10 @@ export class Media {
         heartIcon.setAttribute("tabindex", "0"); // Ajoute la navigation clavier
         heartIcon.setAttribute("role", "button"); // Indique qu'il s'agit d'un bouton pour le lecteur d'écran
 
+        if (this.isLiked) {
+            heartIcon.classList.add('liked');
+        }
+
         // Ajoute un gestionnaire d'événements pour gérer les clics sur le svg du coeur
         heartIcon.addEventListener("click", (event) => {
             event.stopPropagation(); // Empêche la propagation de l'événement de clic à l'élément parent
@@ -83,7 +109,7 @@ export class Media {
         heartIcon.addEventListener("keydown", (event) => {
             if (event.key === "Enter" || event.key === " ") { // Vérifie si la touche pressée est "entrée" ou "barre d'espace"
                 event.preventDefault(); // Empêche le comportement par défaut de la touche (comme faire défiler la page)
-                event.stopPropagation(); // Empêche la propagation de l'événement de touche à l'élément parent
+                event.stopPropagation();
                 this.handleLike();
             }
         });
@@ -95,7 +121,7 @@ export class Media {
         titleContainer.appendChild(likesContainer);
 
         // Stocke la référence à l'élément likesContainer pour les mises à jour ultérieures
-        this.likesContainer = likesContainer; 
+        this.likesContainer = likesContainer;
 
         return { article, titleContainer };
     }
@@ -108,9 +134,14 @@ export class Media {
             this.likes += 1; // Incrémente les likes en utilisant le setter
             this.isLiked = true; // Met à jour le flag pour indiquer que le média a été liké
             this.photographerTemplate.updateTotalLikes(1); // Met à jour le total des likes du photographe de 1
+            this.saveLikeState(); // Sauvegarde l'état du like après l'avoir mis à jour
+            
+            this.likesContainer.querySelector('.heart-icon').classList.add('liked');
+            this.likesContainer.setAttribute('aria-pressed', 'true');
         }
     }
 }
+
 
 /**
  * Classe représentant une photo
@@ -145,6 +176,7 @@ export class Photo extends Media {
         return article;
     }
 }
+
 
 /**
  * Classe représentant une vidéo
@@ -183,6 +215,7 @@ export class Video extends Media {
     }
 }
 
+
 /**
  * Classe représentant une Factory pour Media
  */
@@ -197,11 +230,13 @@ export class MediaFactory {
     static createMedia(data, heartSVG, photographerTemplate) {
         // Vérifie si les données contiennent une image
         if (data.image) {
-            return new Photo(data, heartSVG, photographerTemplate);
+            const photo = new Photo(data, heartSVG, photographerTemplate);
+            return photo;
         } 
         // Vérifie si les données contiennent une vidéo
         else if (data.video) {
-            return new Video(data, heartSVG, photographerTemplate);
+            const video = new Video(data, heartSVG, photographerTemplate);
+            return video;
         } 
         // Si les données ne contiennent ni image ni vidéo, lance une erreur
         else {

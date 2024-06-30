@@ -20,7 +20,7 @@ main {
     width: 100%;
     max-width: 1240px;
     height: 313px;
-    margin: 0 auto;;
+    margin: 0 auto; 
 }
 
 .photograph-header {
@@ -106,8 +106,10 @@ main {
 .media_section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px 95px; 
-    padding: 20px 0; 
+    gap: 20px 95px;
+    padding: 20px 0;
+    width: 100%;
+    max-width: 1240px;
 }
 
 .media_section h2 {
@@ -168,9 +170,10 @@ main {
     height: 24px;
 }
 
+/* Style statique pour le bouton */
 .contact_button {
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 18px;
+    font-family: 'DM Sans';
     color: white;
     padding: 11px;
     width: 170px;
@@ -179,6 +182,19 @@ main {
     background-color: #901C1C;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Transition pour l'effet de survol */
+}
+
+/* Style au survol et focus */
+.contact_button.btn_bgcolor:hover,
+.contact_button.btn_bgcolor:focus  {
+    background-color: #DB8876;
+    color: #000;
+    font-weight: 700;
+}
+
+.send_button {
+    background-color:#901C1C;
 }
 
 .modal {
@@ -207,14 +223,14 @@ main {
 }
 
 .close-button {
-    background-color: transparent; 
-    border: none; 
-    cursor: pointer; 
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
     align-self: flex-start;
     margin: 20px;
-    padding: 0; 
-    width: 42px; 
-    height: 42px; 
+    padding: 0;
+    width: 42px;
+    height: 42px;
 }
 
 form {
@@ -273,25 +289,25 @@ form textarea {
     z-index: 1000;
     animation: fadein 1s ease-out, fadeout 1s ease-in 3s forwards;
 }
-  
+
 @keyframes fadein {
     from {
-        top: 0; 
+        top: 0;
         opacity: 0;
     }
     to {
-        top: 20%; 
+        top: 20%;
         opacity: 1;
     }
 }
-  
+
 @keyframes fadeout {
     from {
         top: 20%;
         opacity: 1;
     }
     to {
-        top: 0; 
+        top: 0;
         opacity: 0;
     }
 }
@@ -333,8 +349,8 @@ form textarea {
     border-radius: 5px;
 }
 
-.lightbox-close, 
-.lightbox-prev, 
+.lightbox-close,
+.lightbox-prev,
 .lightbox-next {
     position: absolute;
     background-color: transparent;
@@ -348,7 +364,7 @@ form textarea {
     width: 72px;
     height: 72px;
     background-size: contain;
-    
+
 }
 
 .lightbox-close svg {
@@ -398,4 +414,108 @@ form textarea {
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     border: 0;
+}
+
+/* Menu déroulant de tri */
+.dropdown {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    padding-top: 10px;
+    align-items: center;
+    width: 260px;
+}
+
+.dropdown label {
+    font-weight: bold;
+    margin: 0;
+}
+
+.dropdown-toggle {
+    background-color: #901C1C;
+    color: #FFF;
+    border: none;
+    font-size: 18px;
+    font-family: 'DM Sans';
+    cursor: pointer;
+    border-radius: 5px;
+    width: 170px;
+    height: 69px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: relative;
+    box-sizing: border-box; /* Padding est inclus dans la largeur totale */
+}
+
+.dropdown-toggle .chevron {
+    margin-left: 10px;
+    transition: transform 0.3s;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-toggle[aria-expanded="true"] .chevron {
+    transform: rotate(180deg);
+}
+
+.dropdown-toggle.open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #901C1C;
+    color: #FFF;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border: none;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 170px;
+    height: auto;
+    border-radius: 0 0 5px 5px;
+    top: calc(100% + 0px); /* Positionne le menu juste en dessous du bouton */
+    left: 87px; /* Alignement à gauche avec le bouton */
+    text-align: left;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    z-index: 1;
+}
+
+.dropdown-menu li {
+    padding: 15px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    position: relative; /* Nécessaire pour positionner le pseudo-élément */
+}
+
+.dropdown-menu li::before,
+.dropdown-menu li::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10px;
+    right: 10px;
+    background-color: #FFF;
+    border-top: 1px solid #E3C6C6;
+}
+
+.dropdown-menu li:hover,
+.dropdown-menu li[aria-selected="true"] {
+    background-color: #821919;
+}
+
+/* Affichage du menu lorsqu'il est ouvert */
+.dropdown-toggle[aria-expanded="true"] + .dropdown-menu {
+    display: block;
+}
+
+.liked {
+    opacity: 0.5; /* Ajoute un éclaircissement au coeur liké*/
 }
