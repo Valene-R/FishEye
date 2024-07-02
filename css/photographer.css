@@ -14,12 +14,14 @@
 
 .banner {
     margin-bottom: 40px;
+    max-width: 200px;
+    width: 100px;
 }
 
 main {
-    width: 100%;
+    width: calc(100% - 200px); /* Réduit la largeur totale de 200px pour les marges */
     max-width: 1240px;
-    height: 313px;
+    min-height: calc(100vh - 90px);
     margin: 0 auto; 
 }
 
@@ -106,7 +108,7 @@ main {
 .media_section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px 95px;
+    gap: 20px 82px;
     padding: 20px 0;
     width: 100%;
     max-width: 1240px;
@@ -131,7 +133,8 @@ main {
     flex-direction: column;
 }
 
-.media_section img, video {
+.media_section img, 
+.media_section video {
     width: 100%;
     max-width: 350px;
     height: 300px;
@@ -204,7 +207,9 @@ main {
     flex-direction: column;
     align-items: center;
     padding: 15px 35px 38px;
-    margin: 69px 375px 55px 385px;
+    margin: 62px auto;
+    max-width: 600px;
+    width: 100%;
 }
 
 .modal header {
@@ -228,6 +233,7 @@ main {
     cursor: pointer;
     align-self: flex-start;
     margin: 20px;
+    margin-right: 0;
     padding: 0;
     width: 42px;
     height: 42px;
@@ -238,6 +244,8 @@ form {
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
+    max-width: 600px;
+    padding: 0 35px;
 }
 
 form label {
@@ -254,7 +262,7 @@ form div {
 }
 
 form input {
-    width: 100%;
+    width: 98%;
     max-width: 600px;
     height: 68px;
     border: none;
@@ -265,11 +273,12 @@ form input {
 
 form textarea {
     height: 170px;
-    width: 100%;
+    width: 97%;
     max-width: 590px;
     border-radius: 5px;
     padding: 10px;
     font-size: 18px;
+    border: none;
     resize: none;
 }
 
@@ -412,7 +421,6 @@ form textarea {
     padding: 0;
     margin: -1px;
     overflow: hidden;
-    clip: rect(0, 0, 0, 0);
     border: 0;
 }
 

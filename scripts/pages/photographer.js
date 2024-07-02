@@ -4,7 +4,10 @@ import { PhotographerTemplate } from "../templates/photographer.js";
 import { MediaFactory } from "../factories/mediaFactory.js";
 import { Lightbox } from "../utils/lightbox.js";
 import { sortMedia } from '../utils/sortMedia.js';
+import { LikeObserver } from "../utils/likeObserver.js";
 
+// Crée une instance de LikeObserver
+const likeObserver = new LikeObserver();
 
 /**
  * Initialise la page du photographe en récupérant les données du photographe spécifique
@@ -46,6 +49,15 @@ async function initPhotographerPage() {
 
                 // Initialise le menu déroulant de tri
                 initDropdown(photographerTemplate);
+
+                // S'abonne aux notifications de l'Observer pattern
+                likeObserver.subscribe("like", ({ id, likes }) => {
+                    const media = filteredMedia.find(media => media.id === id);
+                    if (media) {
+                        media.likes = likes;
+                    }
+                });
+
             } else {
                 displayError("Photographe non trouvé.");
             }
@@ -101,6 +113,7 @@ async function displayMedia(photographerId, photographerName, photographerTempla
         // Crée un élément média (photo ou vidéo) en utilisant la MediaFactory
         // en passant les données du média, le heartSVG et l'instance de PhotographerTemplate
         const mediaElement = MediaFactory.createMedia(media, heartSVG, photographerTemplate);
+        
         // Ajoute mediaElement créé à mediaSection
         mediaSection.appendChild(mediaElement.createMediaElement());
     });
@@ -247,11 +260,3 @@ async function initDropdown(photographerTemplate) {
 
 // Appelle la fonction initPhotographerPage lors du chargement du script pour la page du photographe
 initPhotographerPage();
-
-// Définit l'événement "beforeunload" pour nettoyer le sessionStorage
-window.addEventListener("beforeunload", () => {
-    const photographerId = getPhotographerIdFromUrl();
-    if (photographerId) {
-        sessionStorage.removeItem(`photographer_${photographerId}_likes`);
-    }
-});

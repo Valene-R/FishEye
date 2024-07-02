@@ -1,3 +1,8 @@
+import { LikeObserver } from "../utils/likeObserver.js";
+
+// Crée une instance de LikeObserver
+const likeObserver = new LikeObserver();
+
 // Déclare mediaLikesState globalement
 const mediaLikesState = {};
 
@@ -17,7 +22,7 @@ export class Media {
         this.photographerName = data.photographerName;
         this.heartSVG = heartSVG;
         // Récupère l'état du like pour ce média depuis mediaLikesState si disponible, sinon initialise à false
-        this.isLiked = mediaLikesState[this.id]?.isLiked || false; 
+        this.isLiked = mediaLikesState[this.id]?.isLiked || false;
         // Initialise la référence au template du photographe pour mettre à jour les likes globaux
         this.photographerTemplate = photographerTemplate;
 
@@ -41,7 +46,7 @@ export class Media {
     set likes(value) {
         this._likes = value;
         this.updateLikesDisplay();
-        this.saveLikeState();
+        this.saveLikeState(); // Sauvegarde l'état après chaque mise à jour
     }
 
     /**
@@ -55,7 +60,7 @@ export class Media {
     }
 
     /**
-     * Sauvegarde l'état du like dans le sessionStorage
+     * Sauvegarde l'état du like 
      */
     saveLikeState() {
         mediaLikesState[this.id] = {
@@ -134,11 +139,21 @@ export class Media {
             this.likes += 1; // Incrémente les likes en utilisant le setter
             this.isLiked = true; // Met à jour le flag pour indiquer que le média a été liké
             this.photographerTemplate.updateTotalLikes(1); // Met à jour le total des likes du photographe de 1
-            this.saveLikeState(); // Sauvegarde l'état du like après l'avoir mis à jour
-            
-            this.likesContainer.querySelector('.heart-icon').classList.add('liked');
-            this.likesContainer.setAttribute('aria-pressed', 'true');
+            this.likesContainer.querySelector(".heart-icon").classList.add("liked");
+            this.likesContainer.setAttribute("aria-pressed", "true");
+
+        } else {
+            this.likes -= 1;
+            this.isLiked = false;
+            this.photographerTemplate.updateTotalLikes(-1);
+            this.likesContainer.querySelector(".heart-icon").classList.remove("liked");
+            this.likesContainer.setAttribute("aria-pressed", "false");
         }
+        // Sauvegarde l'état du like après l'avoir mis à jour
+        this.saveLikeState(); 
+
+        // Notifie l'observer du changement de like
+        likeObserver.notify("like", { id: this.id, likes: this._likes });
     }
 }
 

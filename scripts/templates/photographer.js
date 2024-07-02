@@ -1,3 +1,8 @@
+import { LikeObserver } from "../utils/likeObserver.js";
+
+// Crée une instance de LikeObserver
+const likeObserver = new LikeObserver();
+
 /**
  * Représente un photographe
  */
@@ -15,9 +20,10 @@ export class PhotographerTemplate {
         this.picture = `assets/photographers/idPhotos/${portrait}`;
         this.heartSVG = heartSVG;
 
-        // Récupère les likes sauvegardés ou initialise avec le total initial
-        const savedLikes = sessionStorage.getItem(`photographer_${this.id}_likes`);
-        this.totalLikes = savedLikes && !isNaN(savedLikes) ? parseInt(savedLikes, 10) : initialTotalLikes;
+        // Initialise les likes 
+        this.totalLikes = initialTotalLikes;
+        // Abonne à l'événement 'like' pour mettre à jour le total des likes
+        likeObserver.subscribe("like", this.updateTotalLikes.bind(this));
     }
 
     /**
@@ -74,7 +80,7 @@ export class PhotographerTemplate {
      * Crée et retourne un élément DOM représentant le photographe pour la page spécifique du photographe
      * @returns {DocumentFragment} Le fragment contenant les détails du photographe
      */
-     getPhotographerPageDOM() {
+    getPhotographerPageDOM() {
         const fragment = document.createDocumentFragment();
 
         // Crée le profil du photographe
@@ -148,7 +154,7 @@ export class PhotographerTemplate {
      */
     updateTotalLikes(likes) {
         this.totalLikes += likes;
-        sessionStorage.setItem(`photographer_${this.id}_likes`, this.totalLikes); // Sauvegarde les likes dans le sessionStorage
+        // sessionStorage.setItem(`photographer_${this.id}_likes`, this.totalLikes); // Sauvegarde les likes dans le sessionStorage
         
         if (this.likesContainer) {
             this.likesContainer.querySelector('.total-likes-count').textContent = this.totalLikes;

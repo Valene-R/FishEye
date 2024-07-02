@@ -100,8 +100,10 @@ export class Lightbox {
         // Rend les éléments en arrière-plan accessibles
         this.mainContent.removeAttribute("aria-hidden");
 
-        // Déplace le focus sur l'élément qui a ouvert la lightbox
-        this.lastFocusedElement.focus(); 
+        // Vérifie si lastFocusedElement n'est pas null avant de déplacer le focus sur l'élément qui a ouvert la lightbox
+        if (this.lastFocusedElement) {
+            this.lastFocusedElement.focus();
+        }
     }
 
     // Met à jour le contenu de la Lightbox avec le média actuel
