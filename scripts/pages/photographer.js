@@ -3,8 +3,9 @@ import { displayError } from "../utils/displayError.js";
 import { PhotographerTemplate } from "../templates/photographer.js";
 import { MediaFactory } from "../factories/mediaFactory.js";
 import { Lightbox } from "../utils/lightbox.js";
-import { sortMedia } from '../utils/sortMedia.js';
+import { sortMedia } from "../utils/sortMedia.js";
 import { LikeObserver } from "../utils/likeObserver.js";
+import { initLazyLoad } from "../utils/lazyLoad.js";
 
 // Crée une instance de LikeObserver
 const likeObserver = new LikeObserver();
@@ -117,6 +118,9 @@ async function displayMedia(photographerId, photographerName, photographerTempla
         // Ajoute mediaElement créé à mediaSection
         mediaSection.appendChild(mediaElement.createMediaElement());
     });
+
+    // Initialise le lazy loading après avoir inséré les éléments dans le DOM
+    initLazyLoad();
 
     // Sélectionne tous les éléments de média avec l'attribut data-lightbox="media-item"
     const mediaItems = document.querySelectorAll('[data-lightbox="media-item"]');

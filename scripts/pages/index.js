@@ -1,6 +1,7 @@
 import { ApiManager } from "../api/apiManager.js";
 import { PhotographerTemplate } from "../templates/photographer.js";
 import { displayError } from "../utils/displayError.js";
+import { initLazyLoad } from "../utils/lazyLoad.js";
 
 
 /**
@@ -45,6 +46,9 @@ async function displayData(photographers) {
     });
     // Ajoute le fragment complet à la section des photographes dans le DOM principal: permet de minimiser les modifications du DOM et optimise les performances
     photographersSection.appendChild(fragment);
+
+    // Initialise le lazy loading après avoir inséré les éléments dans le DOM
+    initLazyLoad();
 }
     
 

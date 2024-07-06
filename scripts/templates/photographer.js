@@ -42,6 +42,7 @@ export class PhotographerTemplate {
         const img = document.createElement("img");
         img.setAttribute("src", this.picture);
         img.setAttribute("alt", ""); // "alt" vide car l'information est déjà dans le "aria-label" du lien
+        img.setAttribute("loading", "lazy"); // Ajoute lazy loading à l'image
         link.appendChild(img);
 
         // Ajoute le nom du photographe
@@ -116,6 +117,7 @@ export class PhotographerTemplate {
         const img = document.createElement("img");
         img.setAttribute("src", this.picture);
         img.setAttribute("alt", this.name);
+        img.setAttribute("loading", "lazy"); 
 
         // Crée le petit encart avec le prix et les likes
         const infoBarFooter = document.createElement("aside");
@@ -154,7 +156,6 @@ export class PhotographerTemplate {
      */
     updateTotalLikes(likes) {
         this.totalLikes += likes;
-        // sessionStorage.setItem(`photographer_${this.id}_likes`, this.totalLikes); // Sauvegarde les likes dans le sessionStorage
         
         if (this.likesContainer) {
             this.likesContainer.querySelector('.total-likes-count').textContent = this.totalLikes;
