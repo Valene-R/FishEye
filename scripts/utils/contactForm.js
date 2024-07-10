@@ -1,3 +1,5 @@
+import { trapFocus } from "./trapFocus.js";
+
 /**
  * Affiche la modale 
  */
@@ -24,7 +26,7 @@ export function displayModal() {
     document.addEventListener("keydown", handleKeyDown);
 
     // Ajoute un écouteur d'événement pour gérer le focus à l'intérieur de la modale
-    document.addEventListener("keydown", trapFocusInModal);
+    document.addEventListener("keydown", (event) => trapFocus(event, modal));
 }
  
 
@@ -46,7 +48,10 @@ export function closeModal() {
 
     // Supprime les écouteurs d'événements pour la touche "échap" et le focus
     document.removeEventListener("keydown", handleKeyDown);
-    document.removeEventListener("keydown", trapFocusInModal);
+    document.removeEventListener("keydown", (event) => trapFocus(event, modal));
+
+    // Réinitialise le style du bouton
+    resetButtonStyle(); 
 }
 
 
@@ -82,34 +87,13 @@ function handleKeyDown(event) {
 
 
 /**
- * Gère le focus à l'intérieur de la modale
- * @param {KeyboardEvent} event L'événement de clavier déclenché par une touche 
+ * Réinitialise le style du bouton "Envoyer"
  */
-function trapFocusInModal(event) {
-    const modal = document.getElementById("contact_modal");
-    const focusableElements = modal.querySelectorAll("input, button, textarea");
-
-    // Le premier élément interactif de la liste
-    const firstElement = focusableElements[0];
-    // Le dernier élément interactif de la liste
-    const lastElement = focusableElements[focusableElements.length - 1];
-
-    // Vérifie si la touche pressée est "Tab" ou si le code de la touche est "Tab"
-    if (event.key === "Tab" || event.code === "Tab") {
-        if (event.shiftKey) {
-            // Navigation inverse (Shift + Tab)
-            if (document.activeElement === firstElement) {
-                event.preventDefault();
-                lastElement.focus(); // Déplace le focus sur le dernier élément
-            }
-        } else {
-            // Navigation normale (Tab)
-            if (document.activeElement === lastElement) {
-                event.preventDefault();
-                firstElement.focus(); // Déplace le focus sur le premier élément
-            }
-        }
-    }
+function resetButtonStyle() {
+    const button = document.querySelector(".contact_button.btn_bgcolor");
+    button.style.backgroundColor = "#901C1C"; // Couleur par défaut
+    button.style.color = "#FFF";
+    button.style.fontWeight = "400";
 }
 
 
@@ -131,6 +115,9 @@ document.getElementById("contact-form").addEventListener("submit", (event) => {
 
     // Réinitialise le formulaire 
     event.target.reset();
+
+    // Réinitialise le style du bouton
+    resetButtonStyle();
 
     // Ferme la modale après l'envoi du formulaire
     closeModal();

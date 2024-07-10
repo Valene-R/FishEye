@@ -13,7 +13,6 @@
 
     <script type="module" src="/scripts/pages/photographer.js"></script>
     <script type="module" src="/scripts/utils/contactForm.js"></script>
-    <script type="module" src="/scripts/utils/lightbox.js"></script>
   </head>
 
   <body>
@@ -74,7 +73,7 @@
 
     <!-- Ajout de la Lightbox -->
     <div id="lightbox" class="lightbox" aria-labelledby="lightbox-title" role="dialog" aria-hidden="true">
-      <div class="lightbox-content" role="document">
+      <div class="lightbox-content" aria-modal="true" aria-labelledby="lightbox-title">
         <!-- Titre de la lightbox pour l'accessibilité -->
         <h2 id="lightbox-title" class="sr-only">Image closeup view</h2>
         <button class="lightbox-close" aria-label="Close dialog"></button>

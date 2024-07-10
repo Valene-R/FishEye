@@ -216,6 +216,8 @@ async function initDropdown(photographerTemplate) {
             const photographerId = getPhotographerIdFromUrl(); // Récupère l'ID du photographe à partir de l'URL
             const photographerName = document.querySelector(".header-title").textContent; // Récupère le nom du photographe
             displayMedia(photographerId, photographerName, photographerTemplate, sortBy); // Affiche les médias triés
+        
+            button.focus(); // Remet le focus sur le bouton du menu déroulant
         });
 
         // Gére la sélection de l'option au clavier
