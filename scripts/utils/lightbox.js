@@ -91,6 +91,9 @@ export class Lightbox {
         // Masque les éléments en arrière-plan de l'accessibilité
         this.mainContent.setAttribute("aria-hidden", "true");
 
+        // Désactive le défilement de la page principale
+        document.body.style.overflow = "hidden";
+
         // Déplace le focus sur le bouton de fermeture de la lightbox
         this.lightboxCloseBtn.focus();
     }
@@ -105,6 +108,9 @@ export class Lightbox {
 
         // Rend les éléments en arrière-plan accessibles
         this.mainContent.removeAttribute("aria-hidden");
+
+        // Réactive le défilement de la page principale
+        document.body.style.overflow = "auto";
 
         // Vérifie si lastFocusedElement n'est pas null avant de déplacer le focus sur l'élément qui a ouvert la lightbox
         if (this.lastFocusedElement) {

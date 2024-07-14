@@ -1,17 +1,3 @@
-#contact_modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(196, 196, 196, 0.4);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    overflow: auto; /* Permet le scroll dans la modale */
-}
-
 .banner {
     margin-bottom: 40px;
     max-width: 200px;
@@ -35,7 +21,7 @@ main {
 
 .header-title {
     color: #D3573C;
-    font-size: 64px;
+    font-size: 4em;
     font-weight: 400;
     margin: 0;
     height: 83px;
@@ -56,31 +42,31 @@ main {
 /* Pour la ville */
 .photograph-info p:nth-child(1) {
     margin: 0;
-    font-size: 24px;
-    color:#901C1C;
+    font-size: 1.5em;
+    color: var(--primary-color);
 }
 
 /* Pour la tagline */
 .photograph-info p:nth-child(2) {
     margin: 19px 0;
     color: #525252;
-    font-size: 18px;
+    font-size: 1.125em;
 }
 
 /* Pour le prix */
 .photographer-footer {
     position: fixed;
     bottom: 0;
-    right: 100px;
+    right: calc((100% - 1240px) / 2 - 63px); /* Centre par rapport au conteneur principal et offset */
     z-index: 10;
     width: 376px;
 }
 
 /* Petit encart qui affiche le tarif journalier */
 .photographer-footer p {
-    background-color: #DB8876;
-    color: #000;
-    font-size: 24px;
+    background-color: var(--tertiary-color);
+    color: var(--text-color);
+    font-size: 1.5em;
     font-weight: bold;
     padding: 21px 34px 21px 31px;
     border-radius: 5px;
@@ -97,7 +83,7 @@ main {
 }
 
 .total-likes path{
-    fill: #000;
+    fill: var(--text-color);
 }
 
 .total-likes .heart-icon svg {
@@ -108,15 +94,15 @@ main {
 .media_section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px 82px;
+    gap: 20px 95px;
     padding: 20px 0;
     width: 100%;
     max-width: 1240px;
 }
 
 .media_section h2 {
-    color: #901C1C;
-    font-size: 24px;
+    color: var(--primary-color);
+    font-size: 1.5em;
     font-weight: 400;
     margin: 10px 0;
     height: 31px;
@@ -160,12 +146,11 @@ main {
 }
 
 .likes-count {
-    font-size: 18px;
-    color: #901C1C;
+    font-size: 1.5em;
+    color: var(--primary-color);
     margin-right: 5px;
-    color: #901C1C;
-    font-size: 24px;
     font-weight: 500;
+    margin-bottom: 2px;
 }
 
 .heart-icon svg{
@@ -176,13 +161,13 @@ main {
 /* Style statique pour le bouton */
 .contact_button {
     font-size: 18px;
-    font-family: 'DM Sans';
-    color: white;
+    font-family: var(--font-family);
+    color: #FFF;
     padding: 11px;
     width: 170px;
     height: 70px;
     border: none;
-    background-color: #901C1C;
+    background-color: var(--primary-color);
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s; /* Transition pour l'effet de survol */
@@ -191,18 +176,18 @@ main {
 /* Style au survol et focus */
 .contact_button.btn_bgcolor:hover,
 .contact_button.btn_bgcolor:focus  {
-    background-color: #DB8876;
-    color: #000;
+    background-color: var(--tertiary-color);
+    color: var(--text-color);
     font-weight: 700;
 }
 
 .send_button {
-    background-color:#901C1C;
+    background-color:var(--primary-color);
 }
 
 .modal {
     border-radius: 5px;
-    background-color: #DB8876;
+    background-color: var(--tertiary-color);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -221,7 +206,7 @@ main {
 }
 
 .modal header h2 {
-    font-size: 64px;
+    font-size: 4em;
     font-weight: normal;
     display: flex;
     flex-direction: column;
@@ -239,6 +224,20 @@ main {
     height: 42px;
 }
 
+#contact_modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(196, 196, 196, 0.4);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    overflow: auto; /* Permet le scroll dans la modale */
+}
+
 form {
     display: flex;
     width: 100%;
@@ -249,8 +248,8 @@ form {
 }
 
 form label {
-    color: #312E2E;
-    font-size: 36px;
+    color: var(--label-color);
+    font-size: 2.25em;
 }
 
 form div {
@@ -268,7 +267,7 @@ form input {
     border: none;
     border-radius: 5px;
     padding-left: 10px;
-    font-size: 24px;
+    font-size: 1.5em;
 }
 
 form textarea {
@@ -277,21 +276,21 @@ form textarea {
     max-width: 590px;
     border-radius: 5px;
     padding: 10px;
-    font-size: 18px;
+    font-size: 1.125em;
     border: none;
     resize: none;
 }
 
 /* Style de la notification */
 .toast {
-    font-size: 24px;
+    font-size: 1.5em;
     font-weight: bold;
     position: fixed;
     top: 20%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #4CAF50;
-    color: #000;
+    background-color: var(--toast-bg-color);
+    color: var(--text-color);
     padding: 15px;
     border-radius: 5px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
@@ -331,7 +330,7 @@ form textarea {
     left: 0;
     width: 100%;
     height: 100%;
-    background: white;
+    background: var(--bg-lightbox);
     z-index: 1000;
     overflow: auto;
 }
@@ -343,19 +342,25 @@ form textarea {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 62px; /* Ajoute une marge en haut */
+    padding-top: 62px;
+    width: 100%;
+    max-width: 1050px;
+}
+
+.lightbox-media {
+    width: 100%;
 }
 
 .lightbox img,
 .lightbox video {
     width: 100%;
     max-width: 1050px;
-    max-height: calc(100vh - 62px); /* Ajuste la hauteur maximale pour tenir compte des marges */
     height: 900px;
     margin: 0 auto;
     object-fit: cover;
     box-shadow: 6px 0 4px rgba(196, 196, 196, 1);
-    border-radius: 5px;
+    border-radius: 5px 0 0 5px;
+    margin-top: 62px;
 }
 
 .lightbox-close,
@@ -368,12 +373,11 @@ form textarea {
 }
 
 .lightbox-close {
-    top: 60px;
-    right: -80px;
+    top: 124px;
+    right: -86px;
     width: 72px;
     height: 72px;
     background-size: contain;
-
 }
 
 .lightbox-close svg {
@@ -382,7 +386,7 @@ form textarea {
 }
 
 .lightbox-close path {
-    fill: #911C1C;
+    fill: var(--primary-color);
 }
 
 .lightbox-prev,
@@ -391,7 +395,7 @@ form textarea {
     width: 96px;
     height: 96px;
     transform: translateY(-50%);
-    fill: #911C1C;
+    fill: var(--primary-color);
     padding: 0;
 }
 
@@ -403,10 +407,13 @@ form textarea {
     right: -102px;
 }
 
+.media-content{
+    margin: 0;
+}
+
 .media-title h2{
     position: absolute;
-    bottom: -68px;
-    color: #911C1C;
+    color: var(--primary-color);
     font-size: 1.5em;
     font-weight: 400;
     padding-top: 12px;
@@ -441,15 +448,15 @@ form textarea {
 }
 
 .dropdown-toggle {
-    background-color: #901C1C;
-    color: #FFF;
+    background-color: var(--primary-color);
+    color: var(--main-bg-color);
     border: none;
-    font-size: 18px;
-    font-family: 'DM Sans';
+    font-size: 1.125em;
+    font-family: var(--font-family);
     cursor: pointer;
     border-radius: 5px;
     width: 170px;
-    height: 69px;
+    height: 62px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -465,10 +472,11 @@ form textarea {
     height: 16px;
     display: flex;
     align-items: center;
+    transform: rotate(180deg); /* Corrige l'orientation initiale du chevron */
 }
 
 .dropdown-toggle[aria-expanded="true"] .chevron {
-    transform: rotate(180deg);
+    transform: rotate(0deg);
 }
 
 .dropdown-toggle.open {
@@ -479,8 +487,8 @@ form textarea {
 .dropdown-menu {
     display: none;
     position: absolute;
-    background-color: #901C1C;
-    color: #FFF;
+    background-color: var(--primary-color);
+    color: var(--main-bg-color);
     padding: 0;
     margin: 0;
     list-style: none;
@@ -490,16 +498,16 @@ form textarea {
     height: auto;
     border-radius: 0 0 5px 5px;
     top: calc(100% + 0px); /* Positionne le menu juste en dessous du bouton */
-    left: 87px; /* Alignement à gauche avec le bouton */
+    left: 5.435em; /* Aligne à gauche avec le bouton */
     text-align: left;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     z-index: 1;
 }
 
 .dropdown-menu li {
-    padding: 15px 20px;
+    padding: 16px 20px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1.125em;
     position: relative; /* Nécessaire pour positionner le pseudo-élément */
 }
 
@@ -510,13 +518,14 @@ form textarea {
     top: 0;
     left: 10px;
     right: 10px;
-    background-color: #FFF;
+    background-color: var(--main-bg-color);
     border-top: 1px solid #E3C6C6;
 }
 
+.dropdown-toggle.open:hover,
 .dropdown-menu li:hover,
 .dropdown-menu li[aria-selected="true"] {
-    background-color: #821919;
+    background-color: var(--hover-color);
 }
 
 /* Affichage du menu lorsqu'il est ouvert */

@@ -183,7 +183,7 @@ export class Photo extends Media {
         const img = document.createElement("img");
         img.setAttribute("src", `assets/photographers/media/${this.photographerName}/${this.image}`);
         img.setAttribute("alt", "");
-        img.setAttribute("loading", "lazy"); // Ajoute lazy loading à l'image
+        img.setAttribute("loading", "lazy"); // Ajoute lazy loading à l'image 
 
         imgLink.appendChild(img);
         article.appendChild(imgLink);
@@ -214,10 +214,10 @@ export class Video extends Media {
         const videoLink = document.createElement("a");
         videoLink.href = "#"; // Utilise un href vide pour empêcher la navigation par défaut
         videoLink.setAttribute("aria-label", `${this.title} by ${this.photographerName}, closeup view`);
+        videoLink.setAttribute("tabindex", "0"); // Ajoute la navigation clavier
 
         const video = document.createElement("video");
-        video.setAttribute("controls", "");
-        video.setAttribute("loading", "lazy"); // Ajoute lazy loading à la vidéo
+        video.setAttribute("loading", "lazy"); // Ajoute lazy loading à la vidéo 
         const source = document.createElement("source");
         source.setAttribute("src", `assets/photographers/media/${this.photographerName}/${this.video}`);
         source.setAttribute("type", "video/mp4");

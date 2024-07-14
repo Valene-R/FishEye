@@ -1,11 +1,35 @@
+/* Import the normalize CSS */
+@import url("normalize.css");
+
 @import url("photographer.css");
 
-html, body {
+:root {
+    --main-bg-color: #FAFAFA;
+    --primary-color: #901C1C;
+    --secondary-color: #D3573C;
+    --tertiary-color: #DB8876;
+    --bg-lightbox: #FFF;
+    --hover-color: #821919;
+    --text-color: #000;
+    --error-color: #E31515;
+    --price-color: #525252;
+    --label-color: #312E2E;
+    --toast-bg-color: #4CAF50;
+    --font-family: "DM Sans", sans-serif;
+    --font-size-default: 16px;
+}
+
+html{
+    font-size: var(--font-size-default);
+}
+
+html, 
+body {
     min-height: 100%;
     height: auto;
     margin: 0;
     padding: 0;
-    font-family: "DM Sans", sans-serif;
+    font-family: var(--font-family);
 }
 
 body {
@@ -29,10 +53,10 @@ header {
 }
 
 h1 {
-    color: #901C1C;
+    color: var(--primary-color);
     margin-right: 100px;
     margin-top: 44px;
-    font-size: 36px;
+    font-size: 2.25em;
     font-weight: 400;
     height: 47px;
 }
@@ -47,7 +71,7 @@ h1 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     column-gap: 218px;
-    row-gap: 80px;
+    row-gap: 78px;
     margin-top: 90px;
     margin-bottom: 119px;
     justify-content: center;
@@ -62,8 +86,8 @@ h1 {
 }
 
 .photographer_section article h2 {
-    color: #D3573C;
-    font-size: 36px;
+    color: var(--secondary-color);
+    font-size: 2.25em;
     font-weight: 400;
     margin-top: 20px;
     margin-bottom: 0;
@@ -95,29 +119,33 @@ h1 {
 /* Pour la ville */
 .photographer-info p:nth-child(1) {
     margin: 0;
-    font-size: 14px;
-    color:#901C1C;
+    font-size: 0.875em;
+    color:var(--primary-color);
 }
 
 /* Pour la tagline */
 .photographer-info p:nth-child(2) {
     margin: 3px 0;
-    color: #000;
-    font-size: 11px;
+    color: var(--text-color);
+    font-size: 0.688em;
 }
 
 /* Pour le prix */
 .photographer-info p:nth-child(3) {
     margin: 3px 0;
-    color: #525252;
-    font-size: 11px; 
+    color: var(--price-color);
+    font-size: 0.688em; 
 }
 
 .error-message {
-    font-size: 30px;
-    color: #e31515;
+    font-size: 1.875em;
+    color: var(--error-color);
     text-align: center;
     padding: 10px;
-    margin: 20% 0;
+    position: absolute;
+    width: 1200px;
+    justify-content: center;
+    top: 60%;
+    left: 9%;
     display: none; /* Masqué par défaut si requête réussie */
 }
