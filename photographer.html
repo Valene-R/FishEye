@@ -28,12 +28,12 @@
 
       <!-- Menu déroulant de tri -->
       <div class="dropdown">
-        <label id="sortLabel" for="sortDropdown">Trier par</label>
-        <button id="sortDropdown" class="dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="sortLabel">
+        <label id="order-by">Trier par</label>
+        <button class="dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="order-by">
           <span class="button-text">Popularité</span>
           <span class="chevron"></span>
         </button>
-        <ul class="dropdown-menu" role="listbox" aria-labelledby="sortLabel">
+        <ul class="dropdown-menu" role="listbox" aria-labelledby="order-by">
           <li id="sortOptionPopular" role="option" data-value="popularité" aria-selected="false" tabindex="0">Popularité</li>
           <li id="sortOptionDate" role="option" data-value="date" aria-selected="false" tabindex="0">Date</li>
           <li id="sortOptionTitle" role="option" data-value="titre" aria-selected="false" tabindex="0">Titre</li>
@@ -49,14 +49,15 @@
             <img src="assets/icons/close.svg" alt="">
           </button>
         </header>
+        <!-- Formulaire de contact -->
 				<form id="contact-form">
 					<div>
 						<label id="first-name-label" for="first-name">Prénom</label>
-						<input id="first-name" name="first-name" aria-labelledby="first-name-label" required>
-					</div>
+						<input id="first-name" name="first-name" aria-labelledby="first-name-label" minlength="2" maxlength="30" required>
+          </div>
           <div>
             <label id="last-name-label" for="last-name">Nom</label>
-            <input id="last-name" name="last-name" aria-labelledby="last-name-label" required>
+            <input id="last-name" name="last-name" aria-labelledby="last-name-label" minlength="2" maxlength="30" required>
           </div>
           <div>
             <label id="email-label" for="email">Email</label>
@@ -64,7 +65,7 @@
           </div>
           <div>
             <label id="message-label" for="your-message">Votre message</label>
-            <textarea id="your-message" name="message" aria-labelledby="message-label" required></textarea>
+            <textarea id="your-message" name="message" aria-labelledby="message-label" minlength="10" maxlength="500" required></textarea>
           </div>
           <button class="contact_button send_button" type="submit" aria-label="Send">Envoyer</button>
 				</form>
@@ -73,7 +74,7 @@
 
     <!-- Ajout de la Lightbox -->
     <div id="lightbox" class="lightbox" aria-labelledby="lightbox-title" role="dialog" aria-hidden="true">
-      <div class="lightbox-content" aria-modal="true" aria-labelledby="lightbox-title">
+      <div class="lightbox-content" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
         <!-- Titre de la lightbox pour l'accessibilité -->
         <h2 id="lightbox-title" class="sr-only">Image closeup view</h2>
         <button class="lightbox-close" aria-label="Close dialog"></button>
