@@ -80,8 +80,7 @@ export class Lightbox {
      * @param {number} index L'index du média à afficher
      */
     openLightbox(index) {
-        this.lastFocusedElement = this.mediaItems[index].querySelector("a"); // Sauvegarde l'élément ayant le focus avant ouverture
-
+        this.lastFocusedElement = document.activeElement; // Sauvegarde l'élément ayant le focus avant ouverture
         this.currentMediaIndex = index;
         this.updateLightboxContent();
         this.lightbox.setAttribute("aria-hidden", "false"); // Rend la Lightbox visible
@@ -112,12 +111,23 @@ export class Lightbox {
         // Réactive le défilement de la page principale
         document.body.style.overflow = "auto";
 
-        // Vérifie si lastFocusedElement n'est pas null avant de déplacer le focus sur l'élément qui a ouvert la lightbox
-        if (this.lastFocusedElement) {
+        // Retourne au dernier élément activé ou à un élément par défaut
+        if (this.lastFocusedElement && document.body.contains(this.lastFocusedElement)) {
             this.lastFocusedElement.focus();
+        } else {
+            // Si le dernier élément focalisé n'est pas disponible, focalise le premier élément de la section média
+            const firstMediaItem = document.querySelector('.media_section [data-lightbox="media-item"] a');
+            if (firstMediaItem) {
+                firstMediaItem.focus();
+            } else {
+                // Si aucun élément média n'est disponible, met le focus sur le logo
+                const logo = document.querySelector(".logo");
+                if (logo) {
+                    logo.focus();
+                }
+            }
         }
     }
-
 
     /**
      * Met à jour le contenu de la Lightbox avec le média actuel
