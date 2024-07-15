@@ -14,13 +14,14 @@ main {
 .photograph-header {
     display: flex;
     align-items: center;
-    background-color: #FAFAFA;
+    background-color: var(--main-bg-color);
     justify-content: space-between;
     padding: 56px 50px;
+    border-radius: 5px;
 }
 
 .header-title {
-    color: #D3573C;
+    color: var(--secondary-color);
     font-size: 4em;
     font-weight: 400;
     margin: 0;
@@ -40,16 +41,17 @@ main {
 }
 
 /* Pour la ville */
-.photograph-info p:nth-child(1) {
+.photograph-info h2 {
     margin: 0;
     font-size: 1.5em;
     color: var(--primary-color);
+    font-weight: 400;
 }
 
 /* Pour la tagline */
-.photograph-info p:nth-child(2) {
+.photograph-info p {
     margin: 19px 0;
-    color: #525252;
+    color: var(--info-color);
     font-size: 1.125em;
 }
 
@@ -162,7 +164,7 @@ main {
 .contact_button {
     font-size: 18px;
     font-family: var(--font-family);
-    color: #FFF;
+    color: var(--bg-lightbox);
     padding: 11px;
     width: 170px;
     height: 70px;
@@ -519,7 +521,7 @@ form textarea {
     left: 10px;
     right: 10px;
     background-color: var(--main-bg-color);
-    border-top: 1px solid #E3C6C6;
+    border-top: 1px solid var(--border-color);
 }
 
 .dropdown-toggle.open:hover,

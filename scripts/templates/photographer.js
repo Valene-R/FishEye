@@ -98,7 +98,7 @@ export class PhotographerTemplate {
         info.className = "photograph-info";
 
          // La ville et le pays du photographe
-        const location = document.createElement("p");
+        const location = document.createElement("h2");
         location.textContent = `${this.city}, ${this.country}`;
 
         // La tagline du photographe

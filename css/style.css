@@ -12,9 +12,10 @@
     --hover-color: #821919;
     --text-color: #000;
     --error-color: #E31515;
-    --price-color: #525252;
+    --info-color: #525252;
     --label-color: #312E2E;
     --toast-bg-color: #4CAF50;
+    --border-color: #E3C6C6;
     --font-family: "DM Sans", sans-serif;
     --font-size-default: 16px;
 }
@@ -133,7 +134,7 @@ h1 {
 /* Pour le prix */
 .photographer-info p:nth-child(3) {
     margin: 3px 0;
-    color: var(--price-color);
+    color: var(--info-color);
     font-size: 0.688em; 
 }
 
